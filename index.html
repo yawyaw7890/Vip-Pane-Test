@@ -3,173 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YT PLUS - Hybrid Premium UI</title>
+    <title>YT PLUS - Pro Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Padauk:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap');
         
         :root {
-            --primary: #6366f1;
-            --bg: #05070a;
-            --card-bg: #11141d;
-            --sidebar-bg: #0a0d14;
-            --border: #1e293b;
-            --text-main: #ffffff;
+            --primary: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --sidebar-bg: #0f172a;
+            --border: #334155;
+            --text-main: #f1f5f9;
             --text-dim: #94a3b8;
-            --input-bg: #1a1f2e;
-            --success: #22c55e;
+            --input-bg: #0f172a;
+            --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
         }
 
         [data-theme="light"] {
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
             --card-bg: #ffffff;
-            --sidebar-bg: #ffffff;
-            --border: #cbd5e1;
-            --text-main: #0f172a;
+            --sidebar-bg: #f8fafc;
+            --border: #e2e8f0;
+            --text-main: #1e293b;
             --text-dim: #64748b;
-            --input-bg: #f8fafc;
+            --input-bg: #ffffff;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', 'Padauk', sans-serif;
+            font-family: 'Inter', 'Padauk', sans-serif;
             background: var(--bg);
             margin: 0; color: var(--text-main); display: flex; min-height: 100vh;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
-        /* --- Theme Toggle --- */
-        .theme-toggle {
-            position: fixed; top: 20px; right: 20px;
-            width: 45px; height: 45px; border-radius: 50%;
-            background: var(--primary); color: white; border: none;
-            cursor: pointer; z-index: 1001; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-            display: flex; align-items: center; justify-content: center;
+        /* --- Floating Controls (Top Right) --- */
+        .top-controls {
+            position: fixed; top: 15px; right: 20px;
+            display: flex; flex-direction: column; gap: 10px; z-index: 1001;
         }
+
+        .ctrl-btn {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.2s;
+        }
+        .ctrl-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .ctrl-btn.logout-btn:hover { border-color: var(--danger); color: var(--danger); }
 
         /* --- Sidebar --- */
         .sidebar {
-            width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100;
+            width: 230px; background: var(--sidebar-bg); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; position: fixed; height: 100vh;
         }
 
-        .brand { padding: 30px 24px; font-size: 24px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .brand { padding: 25px; font-size: 20px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
 
-        /* --- Content Area --- */
-        .main { margin-left: 250px; flex: 1; padding: 40px; }
+        /* --- Main Content --- */
+        .main { margin-left: 230px; flex: 1; padding: 30px; max-width: 1100px; }
 
         #login-screen { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: var(--card-bg); padding: 40px; border-radius: 24px; border: 1px solid var(--border); width: 340px; }
+        .login-box { background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border); width: 320px; }
 
-        /* --- High Visibility Cards --- */
-        .glass-card { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); padding: 25px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .glass-card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; }
         
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .input-wrap label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--primary); font-weight: 800; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .input-wrap label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-dim); font-weight: 600; }
         
         input { 
-            width: 100%; background: var(--input-bg); border: 2px solid var(--border); color: var(--text-main); 
-            padding: 12px 15px; border-radius: 12px; outline: none; box-sizing: border-box; font-size: 15px; font-weight: 600;
+            width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); 
+            padding: 10px 12px; border-radius: 8px; outline: none; box-sizing: border-box; font-size: 14px;
         }
-        input:focus { border-color: var(--primary); }
 
-        /* --- Buttons --- */
-        .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .btn { padding: 12px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 14px; }
+        .btn { padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 13px; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-outline { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border); }
-        .btn-outline:hover { background: var(--primary); color: white; }
+        .btn-outline { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border); margin-right: 5px; }
 
         /* --- Table List --- */
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; color: var(--text-dim); font-size: 12px; text-transform: uppercase; border-bottom: 2px solid var(--border); }
-        td { padding: 20px 15px; border-bottom: 1px solid var(--border); }
+        th { text-align: left; padding: 12px; color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+        td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 13.5px; }
         
-        .user-remark { font-size: 18px; font-weight: 800; color: var(--text-main); display: block; margin-bottom: 2px; }
-        .user-sub { font-size: 12px; color: var(--primary); font-weight: 600; }
+        .user-remark { font-size: 14.5px; font-weight: 600; color: var(--text-main); display: block; }
+        .user-sub { font-size: 11px; color: var(--text-dim); }
 
-        .expiry-text { font-size: 16px; font-weight: 700; display: block; }
         .days-pill { 
-            display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-top: 6px;
+            display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-top: 4px;
         }
 
         .action-btn { 
-            width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border);
-            background: var(--input-bg); color: var(--text-main); cursor: pointer; margin-left: 4px;
+            width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--input-bg); color: var(--text-main); cursor: pointer;
         }
 
         @media (max-width: 768px) {
             .sidebar { display: none; }
-            .main { margin-left: 0; padding: 15px; padding-top: 80px; }
+            .main { margin-left: 0; padding: 15px; padding-top: 110px; }
+            .top-controls { top: 10px; right: 10px; }
         }
     </style>
 </head>
 <body data-theme="dark">
 
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon" id="theme-icon"></i>
-    </button>
+    <div class="top-controls">
+        <button class="ctrl-btn" onclick="toggleTheme()" title="Switch Theme">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
+        <button class="ctrl-btn logout-btn" onclick="logout()" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
 
     <div id="login-screen">
         <div class="login-box">
-            <h2 style="text-align:center; margin-bottom:30px;">YT PLUS ADMIN</h2>
-            <input type="text" id="adminUser" placeholder="Username" style="margin-bottom:15px;">
-            <input type="password" id="adminPass" placeholder="Password" style="margin-bottom:25px;">
+            <h3 style="text-align:center; margin-bottom:20px;">YT PLUS LOGIN</h3>
+            <input type="text" id="adminUser" placeholder="Username" style="margin-bottom:12px;">
+            <input type="password" id="adminPass" placeholder="Password" style="margin-bottom:20px;">
             <button class="btn btn-primary" style="width:100%;" onclick="checkLogin()">Sign In</button>
         </div>
     </div>
 
     <div class="sidebar">
-        <div class="brand"><i class="fas fa-bolt"></i> YT PLUS</div>
-        <div style="padding: 20px 24px; color: var(--primary); font-weight: 800;"><i class="fas fa-users-cog"></i> USER CONTROL</div>
-        <div style="margin-top:auto; padding: 20px;">
-            <button class="btn btn-outline" style="width:100%; color:var(--danger);" onclick="logout()">Sign Out</button>
+        <div class="brand"><i class="fas fa-terminal"></i> YT PLUS</div>
+        <div style="padding: 15px 25px; color: var(--primary); font-size: 12px; font-weight: 700;">DASHBOARD</div>
+        <div style="padding: 10px 25px; color: var(--text-dim); font-size: 13px;">
+            <i class="fas fa-users" style="margin-right:8px;"></i> User Manager
         </div>
     </div>
 
     <div class="main" id="main-admin" style="display:none;">
-        <div style="margin-bottom: 30px;">
-            <h1 style="margin:0; font-weight: 800;">Management Dashboard</h1>
-            <p style="color: var(--text-dim);">Create, Edit and Monitor VIP subscriptions.</p>
+        <div style="margin-bottom: 25px;">
+            <h2 style="margin:0; font-size: 20px;">Users Management</h2>
+            <p style="color: var(--text-dim); font-size: 13px; margin-top: 5px;">Efficiently manage your VIP connections.</p>
         </div>
 
         <div class="glass-card">
             <div class="form-grid">
                 <div class="input-wrap">
                     <label>CLIENT ID</label>
-                    <input type="text" id="docId" placeholder="e.g. 9988">
+                    <input type="text" id="docId" placeholder="ID">
                 </div>
                 <div class="input-wrap">
-                    <label>REMARK (NAME)</label>
-                    <input type="text" id="username" placeholder="Customer Name">
+                    <label>REMARK</label>
+                    <input type="text" id="username" placeholder="Name">
                 </div>
                 <div class="input-wrap">
-                    <label>EXPIRY DATE</label>
+                    <label>EXPIRY</label>
                     <input type="date" id="expiry">
                 </div>
             </div>
-            <div class="btn-group">
-                <button class="btn btn-primary" onclick="saveUser()"><i class="fas fa-check-circle"></i> Save User</button>
-                <button class="btn btn-outline" onclick="setAutoDate(30)">1 Month</button>
-                <button class="btn btn-outline" onclick="setAutoDate(60)">2 Months</button>
-                <button class="btn btn-outline" onclick="setAutoDate(90)">3 Months</button>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="saveUser()"><i class="fas fa-save"></i> Save User</button>
+                <button class="btn btn-outline" onclick="setAutoDate(30)">30 Days</button>
+                <button class="btn btn-outline" onclick="setAutoDate(60)">60 Days</button>
+                <button class="btn btn-outline" onclick="setAutoDate(90)">90 Days</button>
             </div>
         </div>
 
         <div class="glass-card" style="padding: 0; overflow: hidden;">
-            <div style="padding: 20px 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <h3 style="margin:0; font-weight: 800;">Subscription List</h3>
-                <input type="text" id="searchInput" placeholder="Search by name or ID..." style="width: 250px;" oninput="render()">
+            <div style="padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; font-size: 14px;">User List</span>
+                <input type="text" id="searchInput" placeholder="Search..." style="width: 200px; padding: 8px;" oninput="render()">
             </div>
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
                         <tr>
-                            <th>User Info</th>
+                            <th>User Details</th>
                             <th>Status</th>
-                            <th>Expiry Info</th>
-                            <th style="text-align: right;">Action</th>
+                            <th>Expiry</th>
+                            <th style="text-align: right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="user-list-container"></tbody>
@@ -196,14 +202,12 @@
     const usersCol = collection(db, "users");
     let masterData = [];
 
-    // --- Theme Controller ---
     window.toggleTheme = () => {
         const body = document.body;
-        const icon = document.getElementById('theme-icon');
         const isDark = body.getAttribute('data-theme') === 'dark';
         const newTheme = isDark ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
-        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        document.getElementById('theme-icon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         localStorage.setItem('yt-theme', newTheme);
     };
 
@@ -215,12 +219,10 @@
     };
 
     window.checkLogin = () => {
-        const u = document.getElementById('adminUser').value;
-        const p = document.getElementById('adminPass').value;
-        if(u === "yawyaw" && p === "lawtaung") {
+        if(document.getElementById('adminUser').value === "yawyaw" && document.getElementById('adminPass').value === "lawtaung") {
             localStorage.setItem("yt_admin_login", "true");
             showAdminPanel();
-        } else { alert("Login Error!"); }
+        } else { alert("Failed"); }
     };
 
     window.logout = () => { localStorage.removeItem("yt_admin_login"); location.reload(); };
@@ -245,30 +247,21 @@
         const now = new Date().setHours(0,0,0,0);
 
         displayList.forEach(u => {
-            const expDate = new Date(u.expiryDate);
-            const days = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
-            
-            let badgeBg = "rgba(34, 197, 94, 0.15)";
-            let badgeText = "var(--success)";
-            if(days <= 0) { badgeBg = "var(--danger)"; badgeText = "white"; }
-            else if(days <= 5) { badgeBg = "var(--warning)"; badgeText = "white"; }
+            const days = Math.ceil((new Date(u.expiryDate) - now) / (1000 * 60 * 60 * 24));
+            let color = "var(--success)";
+            if(days <= 0) color = "var(--danger)";
+            else if(days <= 5) color = "var(--warning)";
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>
-                    <span class="user-remark">${u.username.toUpperCase()}</span>
+                    <span class="user-remark">${u.username}</span>
                     <span class="user-sub">ID: ${u.id}</span>
                 </td>
+                <td><span style="font-size:11px; font-weight:700; color:${u.isActive ? 'var(--success)' : 'var(--danger)'}">${u.isActive ? 'ACTIVE' : 'OFF'}</span></td>
                 <td>
-                    <span style="font-size:12px; font-weight:800; color:${u.isActive ? 'var(--success)' : 'var(--danger)'}">
-                        ● ${u.isActive ? 'ACTIVE' : 'STOPPED'}
-                    </span>
-                </td>
-                <td>
-                    <span class="expiry-text">${u.expiryDate}</span>
-                    <div class="days-pill" style="background:${badgeBg}; color:${badgeText};">
-                        ${days < 0 ? 'EXPIRED' : days + ' DAYS REMAINING'}
-                    </div>
+                    <span style="font-weight:600; font-size:13px;">${u.expiryDate}</span><br>
+                    <span class="days-pill" style="background:${color}20; color:${color}">${days < 0 ? 'EXPIRED' : days + ' DAYS'}</span>
                 </td>
                 <td style="text-align: right;">
                     <button class="action-btn" onclick="editU('${u.id}','${u.username}','${u.expiryDate}')"><i class="fas fa-edit"></i></button>
@@ -284,22 +277,19 @@
         const id = document.getElementById('docId').value.trim();
         const name = document.getElementById('username').value.trim();
         const exp = document.getElementById('expiry').value;
-        if(!id || !name || !exp) return alert("Please fill all fields!");
-        const isExpired = new Date(exp) < new Date().setHours(0,0,0,0);
-        await setDoc(doc(db, "users", id), { username: name, expiryDate: exp, isActive: !isExpired }, { merge: true });
-        alert("Saved!");
+        if(id && name && exp) {
+            const isExpired = new Date(exp) < new Date().setHours(0,0,0,0);
+            await setDoc(doc(db, "users", id), { username: name, expiryDate: exp, isActive: !isExpired }, { merge: true });
+        }
     };
 
     window.toggleStatus = async (id, s) => await updateDoc(doc(db, "users", id), { isActive: s });
-    window.deleteU = async (id) => { if(confirm("Confirm Delete?")) await deleteDoc(doc(db, "users", id)); };
-    
+    window.deleteU = async (id) => { if(confirm("Delete?")) await deleteDoc(doc(db, "users", id)); };
     window.editU = (id, n, e) => {
         document.getElementById('docId').value = id;
         document.getElementById('username').value = n;
         document.getElementById('expiry').value = e;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
     window.setAutoDate = (days) => {
         const d = new Date(); d.setDate(d.getDate() + days);
         document.getElementById('expiry').value = d.toISOString().split('T')[0];
