@@ -6,13 +6,13 @@
     <title>YT PLUS - Pro Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Padauk:wght@400;700&display=swap');
         
         :root {
             --primary: #4f46e5;
             --bg: #0f172a;
             --card-bg: #1e293b;
-            --sidebar-bg: #0f172a;
+            --nav-bg: #0f172a;
             --border: #334155;
             --text-main: #f1f5f9;
             --text-dim: #94a3b8;
@@ -25,128 +25,120 @@
         [data-theme="light"] {
             --bg: #f8fafc;
             --card-bg: #ffffff;
-            --sidebar-bg: #f8fafc;
+            --nav-bg: #ffffff;
             --border: #e2e8f0;
             --text-main: #1e293b;
             --text-dim: #64748b;
-            --input-bg: #ffffff;
+            --input-bg: #f1f5f9;
         }
 
         body {
             font-family: 'Inter', 'Padauk', sans-serif;
             background: var(--bg);
-            margin: 0; color: var(--text-main); display: flex; min-height: 100vh;
-            transition: all 0.2s ease;
+            margin: 0; color: var(--text-main);
+            display: flex; flex-direction: column; min-height: 100vh;
         }
 
-        /* --- Floating Controls (Top Right) --- */
-        .top-controls {
-            position: fixed; top: 15px; right: 20px;
-            display: flex; flex-direction: column; gap: 10px; z-index: 1001;
+        header {
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0 12px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky; top: 0; z-index: 1001;
         }
 
-        .ctrl-btn {
-            width: 38px; height: 38px; border-radius: 10px;
-            background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border);
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.2s;
-        }
-        .ctrl-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .ctrl-btn.logout-btn:hover { border-color: var(--danger); color: var(--danger); }
+        .brand { font-size: 14px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 5px; text-decoration: none; }
 
-        /* --- Sidebar --- */
-        .sidebar {
-            width: 230px; background: var(--sidebar-bg); border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; position: fixed; height: 100vh;
-        }
+        .main { padding: 10px; max-width: 850px; margin: 0 auto; width: 100%; box-sizing: border-box; }
 
-        .brand { padding: 25px; font-size: 20px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        /* --- Stats Row with Total --- */
+        .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+        .stat-box { background: var(--card-bg); border-radius: 6px; padding: 6px 8px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
+        .stat-label { font-size: 8px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 2px; }
+        .stat-val { font-size: 14px; font-weight: 800; }
 
-        /* --- Main Content --- */
-        .main { margin-left: 230px; flex: 1; padding: 30px; max-width: 1100px; }
-
-        #login-screen { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border); width: 320px; }
-
-        .glass-card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; }
-        
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 15px; }
-        .input-wrap label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-dim); font-weight: 600; }
+        /* --- Form Compact --- */
+        .glass-card { background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border); padding: 10px; margin-bottom: 10px; }
+        .form-grid { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+        .input-wrap { flex: 1; min-width: 80px; }
+        .input-wrap.wide { flex: 2; min-width: 120px; }
+        .input-wrap label { display: block; margin-bottom: 2px; font-size: 9px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; }
         
         input { 
             width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-main); 
-            padding: 10px 12px; border-radius: 8px; outline: none; box-sizing: border-box; font-size: 14px;
+            padding: 4px 8px; border-radius: 4px; outline: none; font-size: 12px; height: 26px; box-sizing: border-box; 
         }
 
-        .btn { padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 13px; transition: 0.2s; }
+        .btn { padding: 6px 10px; border-radius: 4px; font-weight: 700; cursor: pointer; border: none; font-size: 10px; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-outline { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border); margin-right: 5px; }
+        .btn-outline { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border); }
 
         /* --- Table List --- */
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 12px; color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
-        td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 13.5px; }
-        
-        .user-remark { font-size: 14.5px; font-weight: 600; color: var(--text-main); display: block; }
-        .user-sub { font-size: 11px; color: var(--text-dim); }
+        th { text-align: left; padding: 8px; color: var(--text-dim); font-size: 9px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        td { padding: 8px; border-bottom: 1px solid var(--border); font-size: 12px; }
+        .user-remark { font-size: 12px; font-weight: 600; }
+        .days-pill { display: inline-block; padding: 1px 4px; border-radius: 3px; font-size: 8.5px; font-weight: 700; }
 
-        .days-pill { 
-            display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-top: 4px;
-        }
+        .action-btn { width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 10px; margin-left: 2px; }
 
-        .action-btn { 
-            width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
-            background: var(--input-bg); color: var(--text-main); cursor: pointer;
-        }
+        .ctrl-btn { width: 28px; height: 28px; border-radius: 5px; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); cursor: pointer; font-size: 11px; }
 
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main { margin-left: 0; padding: 15px; padding-top: 110px; }
-            .top-controls { top: 10px; right: 10px; }
+        #login-screen { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+        .login-box { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border); width: 260px; }
+
+        @media (max-width: 500px) {
+            .form-grid { flex-direction: column; }
+            .input-wrap { width: 100%; }
         }
     </style>
 </head>
 <body data-theme="dark">
 
-    <div class="top-controls">
-        <button class="ctrl-btn" onclick="toggleTheme()" title="Switch Theme">
-            <i class="fas fa-moon" id="theme-icon"></i>
-        </button>
-        <button class="ctrl-btn logout-btn" onclick="logout()" title="Logout">
-            <i class="fas fa-sign-out-alt"></i>
-        </button>
-    </div>
+    <header id="top-nav" style="display:none;">
+        <div class="brand"><i class="fas fa-terminal"></i> YT PLUS VIP </div>
+        <div style="display: flex; gap: 5px;">
+            <button class="ctrl-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="theme-icon"></i></button>
+            <button class="ctrl-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </header>
 
     <div id="login-screen">
         <div class="login-box">
-            <h3 style="text-align:center; margin-bottom:20px;">YT PLUS LOGIN</h3>
-            <input type="text" id="adminUser" placeholder="Username" style="margin-bottom:12px;">
-            <input type="password" id="adminPass" placeholder="Password" style="margin-bottom:20px;">
+            <h5 style="text-align:center; margin:0 0 15px 0;">ADMIN LOGIN</h5>
+            <input type="text" id="adminUser" placeholder="User" style="margin-bottom:8px;">
+            <input type="password" id="adminPass" placeholder="Pass" style="margin-bottom:12px;">
             <button class="btn btn-primary" style="width:100%;" onclick="checkLogin()">Sign In</button>
         </div>
     </div>
 
-    <div class="sidebar">
-        <div class="brand"><i class="fas fa-terminal"></i> YT PLUS</div>
-        <div style="padding: 15px 25px; color: var(--primary); font-size: 12px; font-weight: 700;">DASHBOARD</div>
-        <div style="padding: 10px 25px; color: var(--text-dim); font-size: 13px;">
-            <i class="fas fa-users" style="margin-right:8px;"></i> User Manager
-        </div>
-    </div>
-
-    <div class="main" id="main-admin" style="display:none;">
-        <div style="margin-bottom: 25px;">
-            <h2 style="margin:0; font-size: 20px;">Users Management</h2>
-            <p style="color: var(--text-dim); font-size: 13px; margin-top: 5px;">Efficiently manage your VIP connections.</p>
+    <main class="main" id="main-admin" style="display:none;">
+        
+        <div class="stats-row">
+            <div class="stat-box" style="border-bottom: 2px solid var(--primary);">
+                <span class="stat-label">TOTAL USERS</span>
+                <span class="stat-val" id="total-all">0</span>
+            </div>
+            <div class="stat-box" style="border-bottom: 2px solid var(--success);">
+                <span class="stat-label">ACTIVE</span>
+                <span class="stat-val" id="total-active" style="color: var(--success);">0</span>
+            </div>
+            <div class="stat-box" style="border-bottom: 2px solid var(--danger);">
+                <span class="stat-label">EXPIRED</span>
+                <span class="stat-val" id="total-expired" style="color: var(--danger);">0</span>
+            </div>
         </div>
 
         <div class="glass-card">
             <div class="form-grid">
                 <div class="input-wrap">
-                    <label>CLIENT ID</label>
+                    <label>ID</label>
                     <input type="text" id="docId" placeholder="ID">
                 </div>
-                <div class="input-wrap">
+                <div class="input-wrap wide">
                     <label>REMARK</label>
                     <input type="text" id="username" placeholder="Name">
                 </div>
@@ -155,18 +147,18 @@
                     <input type="date" id="expiry">
                 </div>
             </div>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <button class="btn btn-primary" onclick="saveUser()"><i class="fas fa-save"></i> Save User</button>
-                <button class="btn btn-outline" onclick="setAutoDate(30)">30 Days</button>
-                <button class="btn btn-outline" onclick="setAutoDate(60)">60 Days</button>
-                <button class="btn btn-outline" onclick="setAutoDate(90)">90 Days</button>
+            <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="saveUser()">SAVE</button>
+                <button class="btn btn-outline" onclick="setAutoDate(30)">1M</button>
+                <button class="btn btn-outline" onclick="setAutoDate(60)">2M</button>
+                <button class="btn btn-outline" onclick="setAutoDate(90)">3M</button>
             </div>
         </div>
 
         <div class="glass-card" style="padding: 0; overflow: hidden;">
-            <div style="padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 600; font-size: 14px;">User List</span>
-                <input type="text" id="searchInput" placeholder="Search..." style="width: 200px; padding: 8px;" oninput="render()">
+            <div style="padding: 6px 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.1);">
+                <span style="font-weight: 700; font-size: 10px; color: var(--primary);">SUBSCRIBER LIST</span>
+                <input type="text" id="searchInput" placeholder="Search..." style="width: 100px; height: 22px; font-size: 10px;" oninput="render()">
             </div>
             <div style="overflow-x: auto;">
                 <table>
@@ -175,14 +167,14 @@
                             <th>User Details</th>
                             <th>Status</th>
                             <th>Expiry</th>
-                            <th style="text-align: right;">Actions</th>
+                            <th style="text-align: right;">Acts</th>
                         </tr>
                     </thead>
                     <tbody id="user-list-container"></tbody>
                 </table>
             </div>
         </div>
-    </div>
+    </main>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -229,6 +221,7 @@
 
     function showAdminPanel() {
         document.getElementById('login-screen').style.display = "none";
+        document.getElementById('top-nav').style.display = "flex";
         document.getElementById('main-admin').style.display = "block";
         onSnapshot(usersCol, (snap) => {
             masterData = [];
@@ -246,23 +239,22 @@
         displayList.sort((a, b) => new Date(a.expiryDate) - new Date(b.expiryDate));
         const now = new Date().setHours(0,0,0,0);
 
+        let activeCount = 0; let expiredCount = 0;
+
         displayList.forEach(u => {
             const days = Math.ceil((new Date(u.expiryDate) - now) / (1000 * 60 * 60 * 24));
+            const isActuallyActive = u.isActive && days > 0;
+            if (isActuallyActive) activeCount++; else expiredCount++;
+
             let color = "var(--success)";
             if(days <= 0) color = "var(--danger)";
             else if(days <= 5) color = "var(--warning)";
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>
-                    <span class="user-remark">${u.username}</span>
-                    <span class="user-sub">ID: ${u.id}</span>
-                </td>
-                <td><span style="font-size:11px; font-weight:700; color:${u.isActive ? 'var(--success)' : 'var(--danger)'}">${u.isActive ? 'ACTIVE' : 'OFF'}</span></td>
-                <td>
-                    <span style="font-weight:600; font-size:13px;">${u.expiryDate}</span><br>
-                    <span class="days-pill" style="background:${color}20; color:${color}">${days < 0 ? 'EXPIRED' : days + ' DAYS'}</span>
-                </td>
+                <td><span class="user-remark">${u.username.toUpperCase()}</span><br><span style="font-size:8px; color:var(--text-dim)">ID: ${u.id}</span></td>
+                <td><span style="font-size:8px; font-weight:700; color:${isActuallyActive ? 'var(--success)' : 'var(--danger)'}">${isActuallyActive ? 'RUN' : 'OFF'}</span></td>
+                <td><span style="font-weight:600; font-size:10px;">${u.expiryDate}</span><br><span class="days-pill" style="background:${color}20; color:${color}">${days < 0 ? 'EXP' : days + 'D'}</span></td>
                 <td style="text-align: right;">
                     <button class="action-btn" onclick="editU('${u.id}','${u.username}','${u.expiryDate}')"><i class="fas fa-edit"></i></button>
                     <button class="action-btn" onclick="toggleStatus('${u.id}', ${!u.isActive})"><i class="fas ${u.isActive ? 'fa-pause' : 'fa-play'}"></i></button>
@@ -271,6 +263,10 @@
             `;
             container.appendChild(tr);
         });
+
+        document.getElementById('total-all').innerText = masterData.length;
+        document.getElementById('total-active').innerText = activeCount;
+        document.getElementById('total-expired').innerText = expiredCount;
     };
 
     window.saveUser = async () => {
@@ -289,6 +285,7 @@
         document.getElementById('docId').value = id;
         document.getElementById('username').value = n;
         document.getElementById('expiry').value = e;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     window.setAutoDate = (days) => {
         const d = new Date(); d.setDate(d.getDate() + days);
