@@ -21,17 +21,28 @@
             --gold: #FFD700;
         }
 
-        /* --- New Animations for Username --- */
+        /* --- New Premium Animations --- */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes boxPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px rgba(46, 204, 113, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(46, 204, 113, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(46, 204, 113, 0.2); }
+        }
+
         @keyframes nameGlow {
             0% { box-shadow: 0 0 5px rgba(118, 193, 161, 0.4); }
             50% { box-shadow: 0 0 15px rgba(17, 120, 100, 0.7); transform: scale(1.02); }
             100% { box-shadow: 0 0 5px rgba(118, 193, 161, 0.4); }
-        }
-
-        @keyframes textShimmer {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; text-shadow: 0 0 8px rgba(255,255,255,0.8); }
-            100% { opacity: 0.8; }
         }
 
         body {
@@ -41,7 +52,6 @@
             color: var(--text-main);
         }
 
-        /* --- Header & Sticky Setup --- */
         .sticky-wrapper {
             position: sticky;
             top: 0;
@@ -65,6 +75,7 @@
         }
         .brand-logo img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* --- Enhanced Stats Grid --- */
         .stats-grid {
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
@@ -72,17 +83,46 @@
             margin: -35px 15px 0 15px;
             padding-bottom: 10px;
         }
+
         .stat-box {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 12px; padding: 12px 2px; text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            cursor: pointer; transition: 0.3s;
+            cursor: pointer; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            animation: boxPop 0.5s ease backwards, floating 3s infinite ease-in-out;
         }
-        .stat-box.selected { border: 1px solid var(--primary-bg); background: white; }
+
+        /* Staggered entry animation */
+        .stat-box:nth-child(1) { animation-delay: 0.1s, 0s; }
+        .stat-box:nth-child(2) { animation-delay: 0.2s, 0.5s; }
+        .stat-box:nth-child(3) { animation-delay: 0.3s, 1s; }
+        .stat-box:nth-child(4) { animation-delay: 0.4s, 1.5s; }
+
+        .stat-box:hover {
+            transform: scale(1.08) translateY(-10px) !important;
+            background: #fff;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .stat-box.selected { 
+            background: white;
+            border: 2px solid var(--primary-bg);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(17, 120, 100, 0.3);
+        }
+
+        /* Glow effect for Active tab when selected */
+        #tab-active.selected { animation: glowPulse 2s infinite ease-in-out; border-color: var(--success); }
+        #tab-offline.selected { border-color: var(--danger); }
+        #tab-inactive.selected { border-color: var(--warning); }
+
         .stat-num { font-size: 20px; font-weight: 800; display: block; }
         .stat-txt { font-size: 9px; font-weight: 700; opacity: 0.8; }
 
+        /* Rest of the original CSS */
         .search-area { padding: 10px 15px; }
         .search-box {
             background: white; border-radius: 10px; padding: 10px 15px;
@@ -95,18 +135,17 @@
             width: calc(100% - 30px); margin: 0 15px 15px 15px;
             padding: 12px; border-radius: 10px; font-weight: 700;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            cursor: pointer;
+            cursor: pointer; transition: 0.3s;
         }
+        .add-btn:active { transform: scale(0.95); }
 
-        /* --- User Card Design --- */
         .user-card {
             background: white; border-radius: 12px; margin: 0 15px 15px 15px;
             padding: 12px 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: relative;
+            position: relative; animation: boxPop 0.4s ease-out;
         }
 
         .user-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        
         .user-profile-info { display: flex; align-items: center; gap: 10px; flex: 1; }
         .user-avatar-circle {
             width: 40px; height: 40px; border-radius: 50%;
@@ -121,15 +160,13 @@
             border: 2px solid white;
         }
 
-        /* Animated Username Bar */
         .user-name-bar {
             background: #76c1a1; color: #115e4f;
             padding: 4px 12px; border-radius: 4px;
             font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 5px;
             width: 100%; max-width: 200px;
-            animation: nameGlow 3s infinite ease-in-out; /* Glow Animation Applied */
+            animation: nameGlow 3s infinite ease-in-out;
         }
-        .user-name-bar span { animation: textShimmer 2s infinite; }
 
         .status-badge {
             background: #e8f8f5; color: #2ecc71; padding: 2px 10px;
@@ -180,7 +217,7 @@
 
     <div id="login-screen">
         <div style="text-align: center; width: 80%;">
-            <div class="brand-logo" style="margin: 0 auto 20px auto; width: 70px; height: 70px; font-size: 32px;">
+            <div class="brand-logo" style="margin: 0 auto 20px auto; width: 70px; height: 70px; font-size: 32px; animation: floating 3s infinite ease-in-out;">
                 <img src="https://raw.githubusercontent.com/yawlawt/YTPlusVip/main/images/icon.png" alt="Logo"> 
             </div>
             <h3>ADMIN LOGIN</h3>
@@ -302,10 +339,6 @@
         render();
     };
 
-    window.toggleStatus = async (id, currentStatus) => {
-        try { await updateDoc(doc(db, "users", id), { isActive: !currentStatus }); } catch (e) { alert("Error"); }
-    };
-
     window.render = () => {
         const container = document.getElementById("user-list-container");
         const searchVal = document.getElementById('searchInput').value.toLowerCase();
@@ -337,7 +370,6 @@
 
             const card = document.createElement('div');
             card.className = "user-card";
-            
             card.innerHTML = `
                 <div class="user-header-row">
                     <div class="user-profile-info">
