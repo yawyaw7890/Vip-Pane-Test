@@ -15,7 +15,7 @@
             --text-main: #2c3e50;
             --text-dim: #7f8c8d;
             --success: #2ecc71;
-            --danger: #e74c3c;
+            --danger: #e74c3c; /* Red color used for text */
             --warning: #f1c40f;
             --border: #ecf0f1;
             --gold: #FFD700;
@@ -74,6 +74,13 @@
             color: var(--primary-bg); font-size: 24px; font-weight: 800; overflow: hidden; 
         }
         .brand-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- RED COLOR FOR ADMIN NAME --- */
+        .admin-title {
+            color: #e74c3c !important; /* Force red color */
+            font-weight: 800; 
+            font-size: 18px;
+        }
 
         /* --- Stats Grid --- */
         .stats-grid {
@@ -230,7 +237,7 @@
                     <div class="brand-info">
                         <div class="brand-logo"><img src="https://raw.githubusercontent.com/yawlawt/YTPlusVip/main/images/icon.png" alt="YT"></div>
                         <div style="text-align: left;">
-                            <div style="font-weight: 800; font-size: 18px;">YT PLUS VIP ADMIN</div>
+                            <div class="admin-title">YT PLUS VIP ADMIN</div>
                             <div style="font-size: 10px; opacity: 0.8;">Manage VIP Users</div>
                         </div>
                     </div>
@@ -335,7 +342,6 @@
         render();
     };
 
-    // --- New Toggle Status Function ---
     window.toggleStatus = async (id, currentStatus) => {
         try {
             await updateDoc(doc(db, "users", id), { isActive: !currentStatus });
