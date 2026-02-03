@@ -15,10 +15,20 @@
             --text-main: #2c3e50;
             --text-dim: #7f8c8d;
             --success: #2ecc71;
-            --danger: #e74c3c; /* Red color used for text */
+            --danger: #e74c3c;
             --warning: #f1c40f;
             --border: #ecf0f1;
             --gold: #FFD700;
+        }
+
+        /* --- Dark Mode Variables --- */
+        [data-theme="dark"] {
+            --primary-bg: #0a4d3e;
+            --card-bg: #1e2a3a;
+            --text-main: #ecf0f1;
+            --text-dim: #bdc3c7;
+            --border: #2c3e50;
+            background: #121a24;
         }
 
         /* --- New Premium Animations --- */
@@ -50,6 +60,11 @@
             background: #f4f7f6;
             margin: 0; padding: 0;
             color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] body {
+            background: #121a24;
         }
 
         .sticky-wrapper {
@@ -57,6 +72,11 @@
             top: 0;
             z-index: 1000;
             background: #f4f7f6;
+            transition: background-color 0.3s;
+        }
+
+        [data-theme="dark"] .sticky-wrapper {
+            background: #121a24;
         }
 
         .header-section {
@@ -64,6 +84,7 @@
             padding: 20px 15px 50px 15px;
             color: white; text-align: center;
             border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+            transition: background-color 0.3s;
         }
 
         .header-top { display: flex; justify-content: space-between; align-items: center; }
@@ -77,9 +98,31 @@
 
         /* --- RED COLOR FOR ADMIN NAME --- */
         .admin-title {
-            color: #e74c3c !important; /* Force red color */
+            color: #e74c3c !important;
             font-weight: 800; 
             font-size: 18px;
+        }
+
+        /* --- Theme Toggle Button --- */
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
 
         /* --- Stats Grid --- */
@@ -102,13 +145,20 @@
             animation: boxPop 0.5s ease backwards, floating 3s infinite ease-in-out;
         }
 
+        [data-theme="dark"] .stat-box {
+            background: rgba(30, 42, 58, 0.95);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
         .stat-box:nth-child(1) { animation-delay: 0.1s, 0s; }
         .stat-box:nth-child(2) { animation-delay: 0.2s, 0.5s; }
         .stat-box:nth-child(3) { animation-delay: 0.3s, 1s; }
         .stat-box:nth-child(4) { animation-delay: 0.4s, 1.5s; }
 
         .stat-box:hover { transform: scale(1.08) translateY(-10px) !important; background: #fff; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        [data-theme="dark"] .stat-box:hover { background: #2a3a4e; }
         .stat-box.selected { background: white; border: 2px solid var(--primary-bg); transform: scale(1.05); box-shadow: 0 0 15px rgba(17, 120, 100, 0.3); }
+        [data-theme="dark"] .stat-box.selected { background: #2a3a4e; }
         #tab-active.selected { animation: glowPulse 2s infinite ease-in-out; border-color: var(--success); }
         #tab-offline.selected { border-color: var(--danger); }
         #tab-inactive.selected { border-color: var(--warning); }
@@ -121,7 +171,20 @@
             background: white; border-radius: 10px; padding: 10px 15px;
             display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .search-box input { border: none; outline: none; width: 100%; }
+
+        [data-theme="dark"] .search-box {
+            background: #2a3a4e;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .search-box input { 
+            border: none; outline: none; width: 100%; 
+            background: transparent; color: var(--text-main);
+        }
+
+        [data-theme="dark"] .search-box input {
+            color: #ecf0f1;
+        }
 
         .add-btn {
             background: var(--primary-bg); color: white; border: none;
@@ -136,6 +199,11 @@
             background: white; border-radius: 12px; margin: 0 15px 15px 15px;
             padding: 12px 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             position: relative; animation: boxPop 0.4s ease-out;
+        }
+
+        [data-theme="dark"] .user-card {
+            background: #1e2a3a;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .user-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
@@ -180,12 +248,16 @@
         .info-row { display: flex; align-items: center; margin-bottom: 6px; font-size: 13px; }
         .info-icon { width: 25px; color: #117864; font-size: 14px; }
         .info-label { width: 100px; color: #7f8c8d; font-weight: 600; }
+        [data-theme="dark"] .info-label { color: #bdc3c7; }
         .info-value { color: #2c3e50; font-weight: 600; }
+        [data-theme="dark"] .info-value { color: #ecf0f1; }
         .info-value.token { font-family: monospace; font-size: 12px; color: #555; }
+        [data-theme="dark"] .info-value.token { color: #bdc3c7; }
         .info-value.highlight { color: #2ecc71; }
 
         .progress-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
         .p-bar-bg { flex: 1; height: 8px; background: #e8f0fe; border-radius: 10px; overflow: hidden; }
+        [data-theme="dark"] .p-bar-bg { background: #2c3e50; }
         .p-bar-fill { height: 100%; border-radius: 10px; transition: 0.5s; }
         .p-percent { font-size: 12px; font-weight: 800; color: #2ecc71; display: flex; align-items: center; gap: 3px; }
 
@@ -193,19 +265,52 @@
             display: flex; justify-content: flex-end; gap: 8px; 
             margin-top: 15px; padding-top: 10px; border-top: 1px solid #f0f0f0; 
         }
+        [data-theme="dark"] .card-actions { border-top-color: #2c3e50; }
         .btn-sm { 
             padding: 6px 12px; border-radius: 6px; border: none; font-size: 11px; 
             font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;
         }
         .btn-edit { background: #d6eaf8; color: #3498db; }
+        [data-theme="dark"] .btn-edit { background: #1a5276; color: #85c1e9; }
         .btn-delete { background: #fadbd8; color: #e74c3c; }
+        [data-theme="dark"] .btn-delete { background: #78281f; color: #f1948a; }
         .btn-save { background: #d1f2eb; color: #117864; }
+        [data-theme="dark"] .btn-save { background: #0e6251; color: #76c1a1; }
 
-        #form-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(5px); }
-        .form-card { background: white; width: 100%; max-width: 400px; border-radius: 20px; padding: 20px; }
-        .form-card input, .form-card select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        #login-screen { position: fixed; inset: 0; background: var(--primary-bg); z-index: 3000; display: flex; align-items: center; justify-content: center; color: white; }
-        #slip-template { width: 350px; background: white; position: absolute; left: -9999px; padding: 25px; border-radius: 15px; border: 2px solid #117864; }
+        #form-overlay { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); 
+            display: none; align-items: center; justify-content: center; 
+            z-index: 2000; padding: 20px; backdrop-filter: blur(5px); 
+        }
+        .form-card { 
+            background: white; width: 100%; max-width: 400px; 
+            border-radius: 20px; padding: 20px; 
+        }
+        [data-theme="dark"] .form-card { background: #1e2a3a; }
+        .form-card input, .form-card select { 
+            width: 100%; padding: 12px; margin: 10px 0; 
+            border: 1px solid #ddd; border-radius: 8px; 
+            box-sizing: border-box; background: white; color: #333;
+        }
+        [data-theme="dark"] .form-card input,
+        [data-theme="dark"] .form-card select {
+            background: #2a3a4e;
+            border-color: #3d4f66;
+            color: #ecf0f1;
+        }
+        [data-theme="dark"] .form-card input::placeholder {
+            color: #95a5a6;
+        }
+        #login-screen { 
+            position: fixed; inset: 0; background: var(--primary-bg); 
+            z-index: 3000; display: flex; align-items: center; 
+            justify-content: center; color: white; 
+        }
+        #slip-template { 
+            width: 350px; background: white; position: absolute; 
+            left: -9999px; padding: 25px; border-radius: 15px; 
+            border: 2px solid #117864; 
+        }
     </style>
 </head>
 <body>
@@ -241,7 +346,16 @@
                             <div style="font-size: 10px; opacity: 0.8;">Manage VIP Users</div>
                         </div>
                     </div>
-                    <button onclick="logout()" style="background:none; border:none; color:white; font-size: 20px;"><i class="fas fa-sign-out-alt"></i></button>
+                    <div style="display: flex; align-items: center;">
+                        <!-- Dark/Light Mode Toggle Button -->
+                        <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <!-- Logout Button -->
+                        <button onclick="logout()" style="background:none; border:none; color:white; font-size: 20px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" title="Logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -269,7 +383,7 @@
 
     <div id="form-overlay">
         <div class="form-card">
-            <h3 id="modal-title">Add/Edit User</h3>
+            <h3 id="modal-title" style="color: var(--text-main);">Add/Edit User</h3>
             <input type="text" id="docId" placeholder="Token ID (Auto if empty)">
             <input type="text" id="username" placeholder="User Remark / Name">
             <input type="date" id="expiry">
@@ -279,13 +393,13 @@
                 <option value="150">150 ฿</option>
             </select>
             <div style="display: flex; gap: 5px; margin-bottom: 15px;">
-                <button style="flex:1; padding:8px;" onclick="setAutoDate(30)">1 Month</button>
-                <button style="flex:1; padding:8px;" onclick="setAutoDate(60)">2 Months</button>
-                <button style="flex:1; padding:8px;" onclick="setAutoDate(90)">3 Months</button>
+                <button style="flex:1; padding:8px; background: #e8f0fe; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;" onclick="setAutoDate(30)">1 Month</button>
+                <button style="flex:1; padding:8px; background: #e8f0fe; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;" onclick="setAutoDate(60)">2 Months</button>
+                <button style="flex:1; padding:8px; background: #e8f0fe; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;" onclick="setAutoDate(90)">3 Months</button>
             </div>
             <div style="display: flex; gap: 10px;">
-                <button style="flex:1; padding:12px; border-radius:8px; border:1px solid #ddd;" onclick="closeModal()">Cancel</button>
-                <button id="main-save-btn" style="flex:1; padding:12px; border-radius:8px; border:none; background:#117864; color:white; font-weight:bold;" onclick="saveUser()">SAVE USER</button>
+                <button style="flex:1; padding:12px; border-radius:8px; border:1px solid #ddd; background: #f8f9fa; cursor: pointer;" onclick="closeModal()">Cancel</button>
+                <button id="main-save-btn" style="flex:1; padding:12px; border-radius:8px; border:none; background:#117864; color:white; font-weight:bold; cursor: pointer;" onclick="saveUser()">SAVE USER</button>
             </div>
         </div>
     </div>
@@ -309,6 +423,37 @@
     let masterData = [];
     let currentFilter = 'all';
 
+    // Theme Toggle Functionality
+    function initThemeToggle() {
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        
+        // Check for saved theme or prefer-color-scheme
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            icon.className = 'fas fa-sun';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            icon.className = 'fas fa-moon';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
+
     window.checkLogin = () => {
         const u = document.getElementById('adminUser').value;
         const p = document.getElementById('adminPass').value;
@@ -323,6 +468,7 @@
         if(localStorage.getItem("yt_admin_login") === "true") {
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('admin-panel').style.display = "block";
+            initThemeToggle();
             loadData();
         }
     };
